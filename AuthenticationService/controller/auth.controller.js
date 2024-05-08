@@ -2,8 +2,8 @@ import Auth from '../models/auth.model.js'
 import jwt from "jsonwebtoken"
 
 const Role = {
-    Seller: 'seller',
-    Buyer: 'buyer',
+    Student: 'student',
+    Instructor: 'Instructor',
     Admin: 'admin'
 };
 
@@ -47,10 +47,10 @@ const authorize = async (req, res) => {
     }
 }
 
-const authorizeSeller = async (req, res) => {
+const authorizeStudent = async (req, res) => {
     try {
 		const secret = process.env.JWT_SECRET;
-        const privillages = [Role.Seller,Role.Admin]
+        const privillages = [Role.Student,Role.Admin]
     
 		if (secret) {
 			const authToken = req.header("Authorization").split(' ')[1];
@@ -70,10 +70,10 @@ const authorizeSeller = async (req, res) => {
     }
 }
 
-const authorizeBuyer = async (req, res) => {
+const authorizeInstructor = async (req, res) => {
     try {
 		const secret = process.env.JWT_SECRET;
-        const privillages = [Role.Seller,Role.Admin,Role.Buyer]
+        const privillages = [Role.Instructor,Role.Admin]
 		if (secret) {
 			const authToken = req.header("Authorization").split(' ')[1];
 			const decodedToken = jwt.verify(authToken, secret);
@@ -118,4 +118,4 @@ const authorizeAdmin = async (req, res) => {
 }
 
 
-export {addAuthConfig,authorize,authorizeSeller,authorizeBuyer,authorizeAdmin}
+export {addAuthConfig, authorize, authorizeStudent, authorizeInstructor, authorizeAdmin}
